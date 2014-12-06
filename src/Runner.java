@@ -38,7 +38,14 @@ public class Runner
 
 					case "q":
 						// TODO: Give descriptions of each query.
-						runQuery( getInput("Which query do you want to run? (1, 2 or 3)") );
+						System.out.println("Which query do you want to run?");
+						System.out.println("(1)\tFind the teams that have a total weight over 3300 pounds and the staff members of those teams.");
+						System.out.println("(2)\tFind all players and staff members in the Clippers team.");
+						System.out.println("(3)\tFind all Power Forwards in the database along with their team name.");
+						System.out.println("(4)\tFind the team playing the most away games in December and the head coach for this team.");
+						System.out.println("(5)\tFind the conference with the highest total ranked teams.");
+						System.out.println("(6)\tFind the teams playing 2 or more games at Staples Center that have no games broadcast on NBA TV.");
+						runQuery( getInput("") );
 						break;
 
 					case "exit":
@@ -99,6 +106,7 @@ public class Runner
 				br = new BufferedReader( new InputStreamReader(System.in) );
 
 			System.out.println( message );
+			System.out.print("> ");
 			result = br.readLine();
 		} catch( IOException e ){}
 		
@@ -119,6 +127,18 @@ public class Runner
 
 			case "3":
 				Printer.printTableData( Query.query3() );
+				break;
+
+			case "4":
+				Printer.printTableData( Query.query4() );
+				break;
+
+			case "5":
+				Printer.printTableData( Query.query5() );
+				break;
+
+			case "6":
+				Printer.printTableData( Query.query6() );
 				break;
 		}
 	}

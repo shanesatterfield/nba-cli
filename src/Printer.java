@@ -11,8 +11,13 @@ public class Printer
 			maxStringLengths[n] = getMax( getColumnLengths( tableData, n ) );
 
 		String midLine = genMidLine( maxStringLengths );
-		System.out.println( midLine );
 
+		System.out.println("\nSQL Code");
+		System.out.println(  "--------");
+		System.out.println( tableData.get(0).get(0) + "\n\n" );
+
+		System.out.println("Result Set");
+		System.out.println( midLine );
 		for( int i = 1; i < tableData.size(); ++i )
 		{
 			ArrayList<String> currRow = tableData.get(i);
