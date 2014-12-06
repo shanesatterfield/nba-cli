@@ -14,7 +14,16 @@ public class Runner
 
 			boolean quit = false;
 			do {
-				switch( getInput("\nQuery\t\t(q)\nCommit\t\t(c)\nRollback\t(r)\nInsert\t\t(i)\nUpdate\t\t(u)\nDelete\t\t(d)\nQuit\t\t(exit)\n\nEnter a command:") )
+
+				System.out.println("Query\t\t(q)");
+				System.out.println("Commit\t\t(c)");
+				System.out.println("Rollback\t(r)");
+				System.out.println("Insert\t\t(i)");
+				System.out.println("Update\t\t(u)");
+				System.out.println("Delete\t\t(d)");
+				System.out.println("Quit\t\t(exit)\n");
+
+				switch( getInput("Enter a command:") )
 				{
 					case "c":
 						conn.commit();
@@ -33,11 +42,13 @@ public class Runner
 						break;
 
 					case "d":
-						Printer.printTableData( Query.deleteRow() );
+						System.out.println("This query will delete a row from the Divisions table. Doing so may delete rows in other tables.");
+						String ans = getInput("Do you want to continue? (y/n)");
+						if( ( ans.equals("y") ) ? true : false )
+							Printer.printTableData( Query.deleteRow() );
 						break;
 
 					case "q":
-						// TODO: Give descriptions of each query.
 						System.out.println("Which query do you want to run?");
 						System.out.println("(1)\tFind the teams that have a total weight over 3300 pounds and the staff members of those teams.");
 						System.out.println("(2)\tFind all players and staff members in the Clippers team.");
@@ -80,21 +91,28 @@ public class Runner
 
 	public static void init() throws Exception
 	{
-		Class.forName("com.mysql.jdbc.Driver");
+		try
+		{
+			Class.forName("com.mysql.jdbc.Driver");
 
-		System.out.print("Connecting to database");
-		conn = DriverManager.getConnection( URL, USER, PASS );
-		/*
-		// TODO: Use this instead.
-		conn = DriverManager.getConnection(
-			getInput("URL String"),
-			getInput("User"),
-			getInput("Password")
-		);
-		*/
-		conn.setAutoCommit( false );
+			System.out.println("This is NBA Team's CECS 323 Final JDBC Project. Through this command line interface, you can connect to a database and run a number of predetermined queries.");
+			System.out.println("Connecting to database");
 
-		System.out.println("\rConnected");
+			conn = DriverManager.getConnection(
+				getInput("URL String:"),
+				getInput("User:"),
+				getInput("Password:")
+			);
+			conn.setAutoCommit( false );
+
+			System.out.println("\rConnected\n");
+
+			System.out.println("Select one of the options below to run the query.");
+		} catch( Exception e ) {
+			System.out.println("Error: Could not connect to database.");
+			e.printStackTrace();
+			throw e;
+		}
 	}
 
 	public static String getInput( String message )
@@ -143,13 +161,6 @@ public class Runner
 		}
 	}
 
-
-
-	public static Connection conn;
-	private static final String URL  = "jdbc:mysql://infoserver.cecs.csulb.edu:3306/fall2014v";
-	private static final String USER = "fall2014v";
-
-	// TODO: Security
-	private static final String PASS = "Eiquie";
+	public static Connection conn   = null;
 	public static BufferedReader br = null;
 }
